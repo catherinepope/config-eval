@@ -13,6 +13,7 @@ jobs:
           default: "15.10.0"
       docker:
         - image: cimg/node:<< parameters.node-version >>
+      parallelism: 5
       resource_class: large
       steps:
         - checkout
@@ -24,7 +25,7 @@ jobs:
         - run:
             name: Test application
             command: |
-                TEST=$(circleci tests glob "src/__tests__/*.js")
+                TEST=$(circleci tests glob "src/__tests__/*.js" | circleci tests split --split-by=timings)
                 yarn test $TEST
         - run:
             name: Copy results
@@ -40,4 +41,3 @@ workflows:
           matrix:
             parameters:
               node-version: ["13.8", "14.2", "15.11"]
-    
