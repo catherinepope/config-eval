@@ -13,7 +13,7 @@ jobs:
           default: "15.10.0"
       docker:
         - image: cimg/node:<< parameters.node-version >>
-      parallelism: 5
+      parallelism: 8
       resource_class: large
       steps:
         - checkout
